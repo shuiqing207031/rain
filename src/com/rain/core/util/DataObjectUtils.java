@@ -41,7 +41,7 @@ public class DataObjectUtils {
 	 */
 	public static <T> T converObjectToType(Object o ,Class<T> clazz) throws Exception{
 		if (o == null) return null;
-		
+
 		//数值类
 		if(o instanceof Number && Number.class.isAssignableFrom(clazz)){
 			Number value = (Number)o;
@@ -55,17 +55,20 @@ public class DataObjectUtils {
 		}
 		
 		//Date类型
-		if (o instanceof java.sql.Date ){
+		if (o instanceof java.util.Date){
 			if (clazz == String.class){
 				return (T)o.toString();
 			} else if (clazz == Date.class){
-				java.sql.Date d = (java.sql.Date)o; 
-				return (T)new Date(d.getTime());
+				return (T)o;
 			}
 		}
-		log.warn("unsupport convert,please check the type:"+o.getClass().getName()+" to "+clazz.getName());
+
+		if (clazz == String.class){
+			return (T)o.toString();
+		}
+
+		log.warn("hello unsupport convert,please check the type:"+o.getClass().getName()+" to "+clazz.getName());
 		return null;
 	}
-	
-	
+
 }
